@@ -39,7 +39,8 @@
         "gulp-uglify": "*",
         "gulp-util": "*",
         "node-notifier": "*",
-        "update-notifier": "*"
+        "update-notifier": "*",
+        "bowser": "*"
     },
     "private": true,
     "repository": {
