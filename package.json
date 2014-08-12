@@ -34,7 +34,6 @@
     "gulp-watch": "*",
     "jade": "*",
     "jquery": "^1.11.1",
-    "jqueryify": "https://github.com/Nex9/jqueryify/archive/1.10.2.tar.gz",
     "json2ify": "*",
     "nex": "git+ssh://git@git.nex9.com/repo/nex",
     "node-notifier": "*",
@@ -42,6 +41,7 @@
     "streamify": "*",
     "underscore": "*",
     "update-notifier": "*"
+    "bowser": "*"
   },
   "private": true,
   "repository": {
