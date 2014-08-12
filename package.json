@@ -40,7 +40,7 @@
     "node-uuid": "*",
     "streamify": "*",
     "underscore": "*",
-    "update-notifier": "*"
+    "update-notifier": "*",
     "bowser": "*"
   },
   "private": true,
