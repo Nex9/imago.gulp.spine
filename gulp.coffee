@@ -91,7 +91,7 @@ generateStylus = (production = false) ->
       errorHandler: reportError
     )
     .pipe stylus({errors: true, use: ['nib'], set:['compress']})
-    .pipe prefix('last 2 versions')
+    .pipe prefix('last 4 versions')
     .pipe concat config.targets.css
     .pipe gulp.dest dest
     .pipe reload({stream:true})
@@ -104,7 +104,7 @@ generateSass = (production = false) ->
       errorHandler: reportError
     )
     .pipe sass()
-    .pipe prefix('last 2 versions')
+    .pipe prefix('last 4 versions')
     .pipe concat config.targets.css
     .pipe gulp.dest dest
     .pipe reload({stream:true})
