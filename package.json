@@ -31,7 +31,7 @@
     "gulp-stylus": "^0.1.0",
     "gulp-uglify": "*",
     "gulp-util": "*",
-    "gulp-watch": "*",
+    "gulp-watch": "^0.7.1",
     "jade": "*",
     "jquery": "^1.11.1",
     "json2ify": "*",
