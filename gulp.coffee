@@ -21,8 +21,7 @@ insert          = require 'gulp-insert'
 gutil           = require 'gulp-util'
 sourcemaps      = require 'gulp-sourcemaps'
 watch           = require 'gulp-watch'
-Notification    = require 'node-notifier'
-notifier        = new Notification()
+notification    = require 'node-notifier'
 exec            = require('child_process').exec
 
 updateNotifier  = require 'update-notifier'
@@ -193,7 +192,7 @@ gulp.task 'watch', ['prepare', 'browser-sync'], ->
 
 reportError = (err) ->
   gutil.beep()
-  notifier.notify
+  notification.notify
     title: 'Error running Gulp'
     message: err.message
   gutil.log err
