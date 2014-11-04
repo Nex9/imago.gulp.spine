@@ -128,7 +128,7 @@ gulp.task 'minify', ['prepare'], minifyJs
 combineJs = (production = false) ->
   # We need to rethrow jade errors to see them
   rethrow = (err, filename, lineno) -> throw err
-
+  console.log "combinejs"
   files = [
     config.targets.lib
     config.targets.modules
@@ -182,7 +182,7 @@ gulp.task 'watch', ['prepare', 'browser-sync'], ->
   , ->
     gulp.start('scripts')
 
-  files = [config.targets.jade, config.targets.coffee, config.targets.scripts]
+  files = [config.targets.jade, config.targets.coffee, config.targets.scripts, config.targets.modules]
   sources = ("#{dest}/#{file}" for file in files)
 
   watch
