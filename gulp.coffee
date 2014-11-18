@@ -102,7 +102,9 @@ generateSass = (production = false) ->
     .pipe plumber(
       errorHandler: reportError
     )
-    .pipe sass()
+    .pipe sass
+      quiet: true
+      "sourcemap=none": true
     .pipe prefix('last 4 versions')
     .pipe concat config.targets.css
     .pipe gulp.dest dest
@@ -128,7 +130,6 @@ gulp.task 'minify', ['prepare'], minifyJs
 combineJs = (production = false) ->
   # We need to rethrow jade errors to see them
   rethrow = (err, filename, lineno) -> throw err
-  console.log "combinejs"
   files = [
     config.targets.lib
     config.targets.modules
