@@ -18,13 +18,13 @@ modRewrite      = require 'connect-modrewrite'
 common          = require 'gulp-commonjs'
 rename          = require 'gulp-rename'
 insert          = require 'gulp-insert'
-gutil           = require 'gulp-util'
 sourcemaps      = require 'gulp-sourcemaps'
 watch           = require 'gulp-watch'
 notification    = require 'node-notifier'
 exec            = require('child_process').exec
 
 updateNotifier  = require 'update-notifier'
+utils           = require './themeutils'
 pkg             = require './package.json'
 config          = require '../../gulp'
 
@@ -37,7 +37,7 @@ gulp.task 'modules', ->
   files = (require.resolve(module) for module in config.paths.modules)
   gulp.src(files, base: __dirname)
     .pipe plumber(
-      errorHandler: reportError
+      errorHandler: utils.reportError
     )
     .pipe rename (path) ->
       path.extname = ""
@@ -53,9 +53,9 @@ gulp.task 'modules', ->
 gulp.task 'jade', ->
   gulp.src config.paths.jade
     .pipe plumber(
-      errorHandler: reportError
+      errorHandler: utils.reportError
     )
-    .pipe jade(client: true).on('error', reportError)
+    .pipe jade(client: true).on('error', utils.reportError)
     .pipe insert.prepend "module.exports = "
     .pipe rename extname: ""
     .pipe common()
@@ -65,7 +65,7 @@ gulp.task 'jade', ->
 gulp.task 'scripts', ->
   gulp.src config.paths.js
     .pipe plumber(
-      errorHandler: reportError
+      errorHandler: utils.reportError
     )
     .pipe rename extname: ""
     .pipe common()
@@ -75,10 +75,10 @@ gulp.task 'scripts', ->
 gulp.task 'coffee', ->
   gulp.src config.paths.coffee
     .pipe plumber(
-      errorHandler: reportError
+      errorHandler: utils.reportError
     )
     .pipe coffeelint()
-    .pipe coffee(bare: true).on('error', reportError)
+    .pipe coffee(bare: true).on('error', utils.reportError)
     .pipe rename extname: ""
     .pipe common()
     .pipe concat config.targets.coffee
@@ -87,7 +87,7 @@ gulp.task 'coffee', ->
 generateStylus = (production = false) ->
   gulp.src config.paths.stylus
     .pipe plumber(
-      errorHandler: reportError
+      errorHandler: utils.reportError
     )
     .pipe stylus({errors: true, use: ['nib'], set:['compress']})
     .pipe prefix('last 4 versions')
@@ -98,15 +98,14 @@ generateStylus = (production = false) ->
 gulp.task 'stylus', generateStylus
 
 generateSass = (production = false) ->
-  gulp.src config.paths.sass
-    .pipe plumber(
-      errorHandler: reportError
-    )
-    .pipe sass()
-    .pipe prefix('last 4 versions')
+  return sass(config.paths.sass, quiet: true, "sourcemap=none": true)
+    .pipe plumber
+      errorHandler: utils.reportError
+    .pipe prefix("last 4 versions")
     .pipe concat config.targets.css
-    .pipe gulp.dest dest
-    .pipe reload({stream:true})
+    .pipe plumber.stop()
+    .pipe gulp.dest config.dest
+    .pipe browserSync.reload(stream:true)
 
 gulp.task 'sass', generateSass
 
@@ -128,7 +127,6 @@ gulp.task 'minify', ['prepare'], minifyJs
 combineJs = (production = false) ->
   # We need to rethrow jade errors to see them
   rethrow = (err, filename, lineno) -> throw err
-
   files = [
     config.targets.lib
     config.targets.modules
@@ -182,7 +180,7 @@ gulp.task 'watch', ['prepare', 'browser-sync'], ->
   , ->
     gulp.start('scripts')
 
-  files = [config.targets.jade, config.targets.coffee, config.targets.scripts]
+  files = [config.targets.jade, config.targets.coffee, config.targets.scripts, config.targets.modules]
   sources = ("#{dest}/#{file}" for file in files)
 
   watch
@@ -190,13 +188,6 @@ gulp.task 'watch', ['prepare', 'browser-sync'], ->
   , ->
     gulp.start('combine')
 
-reportError = (err) ->
-  gutil.beep()
-  notification.notify
-    title: 'Error running Gulp'
-    message: err.message
-  gutil.log err
-  @emit 'end'
 
 gulp.task 'build', ['minify'], ->
   generateSass()
