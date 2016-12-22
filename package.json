@@ -35,7 +35,7 @@
     "jade": "*",
     "jquery": "^1.11.1",
     "json2ify": "*",
-    "nex": "git+ssh://git@git.nex9.com/repo/nex",
+    "nex": "Imago-io/nex#master",
     "node-notifier": "*",
     "node-uuid": "*",
     "streamify": "*",
