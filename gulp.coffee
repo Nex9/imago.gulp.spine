@@ -26,7 +26,6 @@ exec            = require('child_process').exec
 updateNotifier  = require 'update-notifier'
 utils           = require './themeutils'
 pkg             = require './package.json'
-console.log process.cwd()
 config          = require '../../gulp'
 
 updateNotifier({packageName: pkg.name, packageVersion: pkg.version}).notify()
