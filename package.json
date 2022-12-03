@@ -12,7 +12,7 @@
   "dependencies": {
     "base64-js": "*",
     "bowser": "*",
-    "browser-sync": "~1",
+    "browser-sync": "~2",
     "coffeescript": "~1",
     "commonjs-require-definition": "*",
     "connect-modrewrite": "*",
@@ -31,7 +31,7 @@
     "gulp-stylus": "^0.1.0",
     "gulp-uglify": "*",
     "gulp-util": "*",
-    "gulp-watch": "^0.7.1",
+    "gulp-watch": "^5.0.1",
     "jade": "*",
     "jquery": "^1.11.1",
     "json2ify": "*",
